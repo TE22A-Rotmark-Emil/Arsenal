@@ -4,7 +4,6 @@ public class Player: Character
 
     public void SelectCharacterName()
     {
-        IsPlayer = true;
         bool validName = false;
         string legalCharacters = "abcdefghijklmnopqrstuvwxyz";
         char[] legalCharacterList = legalCharacters.ToCharArray();
