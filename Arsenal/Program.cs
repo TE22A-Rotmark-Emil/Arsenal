@@ -1,6 +1,10 @@
-﻿global using System.Text.Json;
+﻿Character Placeholder = new("Gameloop");
 
-Character Player = new("Bertram");
+string PlayerName = Placeholder.SelectCharacterName();
+
+Character Player = new(PlayerName);
+
+Console.WriteLine($"Your name is {Player.Name}");
 
 while(true){
     Player.Tick();
