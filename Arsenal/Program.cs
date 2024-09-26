@@ -1,6 +1,6 @@
 ﻿global using System.Text.Json;
 
-Character Player = new();
+Player Player = new();
 
 Player.SelectCharacterName();
 
