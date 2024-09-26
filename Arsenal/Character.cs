@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 public class Character
 {
     private int _maxHP;
@@ -26,27 +28,53 @@ public class Character
     }
 
     public void Attack(Character defender){
-        Console.WriteLine(defender.HP);
-        Console.WriteLine(Weapon.Damage);
-        while(defender.HP > 0 && Weapon.Durability > 0){
-            int minDamage = Weapon.Damage-1;
-            if (minDamage <= 0){minDamage = 1;}
-            int maxDamage = Weapon.Damage+1;
-            int damage = Random.Shared.Next(minDamage, maxDamage);
-            if (defender.HP - damage < 0){
-                damage = defender.HP;
-            }
+        while(defender.HP > 0 && Weapon != null){
+            int damage = CalcDamage();
             defender.HP -= damage;
-            if (defender.HP < 0){
-                defender.HP = 0;
-            }
             Weapon.Durability--;
             Console.WriteLine($"{defender.Name} has taken {damage} damage and now has {defender.HP}/{defender._maxHP} HP");
             Thread.Sleep(Random.Shared.Next(125, 250));
+            ReduceWeaponDurability();
+            if (defender.HP == 0){
+                defender.HP = defender._maxHP;
+            }
+        }
+
+        if (Weapon == null){
+            Console.WriteLine("Lmaoo");
+        }
+        else{
+            Console.WriteLine("They dead lmao");
+        }
+
+        int CalcDamage(){
+            int minDamage = Weapon.Damage-2;
+            if (minDamage <= 0){minDamage = 1;}
+            int maxDamage = Weapon.Damage+2;
+            int damage = Random.Shared.Next(minDamage, maxDamage);
+            if (Random.Shared.NextDouble() <= CritChance){
+                float floatDamage = maxDamage;
+                floatDamage *= CritDamage;
+                damage = Convert.ToInt32(floatDamage);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("CRITICAL HIT!");
+                Console.ForegroundColor = ConsoleColor.Gray;
+            }
+            if (defender.HP - damage < 0){
+                damage = defender.HP;
+            }
+            return damage;
         }
     }
 
     public void ChooseWeapon(){
         Weapon = new("Shiv");
+    }
+
+    public void ReduceWeaponDurability(){
+        Weapon.Durability--;
+        if (Weapon.Durability <= 0){
+            Weapon = null;
+        }
     }
 }
