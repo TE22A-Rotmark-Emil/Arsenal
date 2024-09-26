@@ -3,6 +3,8 @@ using System.Runtime.InteropServices;
 public class Character
 {
     public string Name;
+    public bool IsPlayer;
+    private List<string> _names = new List<string>{"Henry", "Arnold", "Jessica", "Pacifica", "Coroner", "Charlie", "James", "Everest"};
     private int _maxHP;
     public int HP = 10;
     public Weapon Weapon;
@@ -10,9 +12,11 @@ public class Character
     public float CritChance;
     public float CritDamage;
 
-    public Character(string name, int strength = 1, float critchance = 0.10f, float critdamage = 2.0f)
+    public Character(int strength = 1, float critchance = 0.10f, float critdamage = 2.0f)
     {
-        Name = name;
+        if (!IsPlayer){
+            Name = _names[Random.Shared.Next(0, _names.Count())];
+        }
         _maxHP = HP;
         Strength = strength;
         CritChance = critchance;
@@ -25,7 +29,7 @@ public class Character
         {
             ChooseWeapon();
         }
-        Character newguy = new("newguy");
+        Character newguy = new();
         Attack(newguy);
         Console.ReadLine();
     }
@@ -96,8 +100,9 @@ public class Character
         }
     }
 
-    public string SelectCharacterName()
+    public void SelectCharacterName()
     {
+        IsPlayer = true;
         bool validName = false;
         string legalCharacters = "abcdefghijklmnopqrstuvwxyz";
         char[] legalCharacterList = legalCharacters.ToCharArray();
@@ -165,7 +170,7 @@ public class Character
             }
             return word;
         }
-        return CharacterName;
+        Name = CharacterName;
     }
 
     bool Confirmation()

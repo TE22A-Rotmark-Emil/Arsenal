@@ -1,8 +1,8 @@
-﻿Character Placeholder = new("Gameloop");
+﻿global using System.Text.Json;
 
-string PlayerName = Placeholder.SelectCharacterName();
+Character Player = new();
 
-Character Player = new(PlayerName);
+Player.SelectCharacterName();
 
 Console.WriteLine($"Your name is {Player.Name}");
 
